@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aplus Digital - Data Reload</title>
-    //270126
+    <!-- //270126 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -27,6 +27,27 @@
     min-width: 32rem;
 }
     }
+.input-fixed {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  background: white;
+  z-index: 50;
+  box-shadow: 0px 2px rgba(0, 0, 0, 0.1);
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: 20px 10px;
+}
+.input-fixed .mb-10 {
+    margin-bottom: 0.5rem;
+}
+
+/* Add padding when fixed to prevent content jump */
+#emoney-page.input-is-fixed #product-grid {
+  padding-top: 200px; /* Adjust based on input section height */
+}
+
       .product-card {
         transition: transform 0.2s ease, box-shadow 0.2s ease;
       }
@@ -81,10 +102,24 @@
         >
           Paket Data
         </button>
+        <button
+          id="tab-pulsa"
+          onclick="switchTab('pulsa')"
+          class="w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all"
+        >
+          Pulsa
+        </button>
+        <button
+          id="tab-emoney"
+          onclick="switchTab('emoney')"
+          class="w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all"
+        >
+          E-Money
+        </button>
       </div>
 
       <!-- Phone Number Input Section -->
-      <div class="p-4 bg-gray-50 border-b border-gray-100">
+      <div id="phone-input-section" class="p-4 bg-gray-50 border-b border-gray-100">
         <label
           class="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wider"
           >Nomor Handphone</label
@@ -114,7 +149,44 @@
           Masukkan nomor untuk melihat produk
         </p>
       </div>
+      <div id="emoney-page" class="p-4 hidden">
+        <!-- Step 1: Operator Buttons -->
+        <!-- Operator Buttons Section -->
+        <div id="operator-section" class="mb-6">
+            <div class="flex gap-4">
+                <button onclick="handleOperatorClick('Grab Drive')" id="btn-grab"
+                    class="operator-btn bg-[#2ecc71] text-black px-6 py-2 rounded-lg font-bold shadow-sm border border-gray-200">
+                    Grab Driver
+                </button>
+                <button onclick="handleOperatorClick('Maxim Driver')" id="btn-maxim"
+                    class="operator-btn bg-[#f1c40f] text-black px-6 py-2 rounded-lg font-bold shadow-sm border border-gray-200">
+                    Maxim Driver
+                </button>
+            </div>
+        </div>
+        <!-- Step 2: Product Grid -->
+            <div id="product-section" class="hidden">
+                <!-- Step 3: Input ID -->
+                <div id="input-section" class="hidden border-t pt-6">
+                    <label class="block text-sm font-bold uppercase tracking-wide mb-2">Nomor ID Driver</label>
+                    <input type="text" 
+                           id="driver-id" 
+                           placeholder="Masukkan ID" 
+                           class="w-full p-4 border-2 border-black rounded-xl text-xl focus:outline-none"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    <p class="text-sm text-gray-500 mt-2">Masukkan angka saja</p>
+                    
+                    <button id="process-btn" onclick="initiateCheckout()" class="w-full mt-6 bg-black text-white py-4 rounded-xl font-bold text-lg mb-10">
+                        Lanjutkan
+                    </button>
+                </div>
+                <div id="product-grid" class="grid grid-cols-2 gap-3 mb-6">
+                    <!-- Products will be injected here -->
+                </div>
 
+                
+            </div>
+        </div>
       <!-- Product List -->
       <div
         id="product-container"
@@ -413,19 +485,217 @@
         currentTab = tab;
         const btnMasa = document.getElementById("tab-masa-aktif");
         const btnPaket = document.getElementById("tab-paket-data");
+        const btnPulsa = document.getElementById("tab-pulsa");
+        const btnEmoney = document.getElementById("tab-emoney");
         if (tab === "masa aktif") {
           btnMasa.className =
             "w-1/2 py-3 text-sm font-semibold border-b-2 border-blue-600 text-blue-600 transition-all";
           btnPaket.className =
             "w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all";
-        } else {
+          btnPulsa.className =
+            "w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all";
+         btnEmoney.className =
+            "w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all";
+            document.getElementById("phone-input-section").classList.remove("hidden");
+            document.getElementById("emoney-page").classList.add("hidden");
+        } else if (tab === "paket data") {
           btnPaket.className =
             "w-1/2 py-3 text-sm font-semibold border-b-2 border-blue-600 text-blue-600 transition-all";
           btnMasa.className =
             "w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all";
+          btnPulsa.className =
+            "w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all";
+        btnEmoney.className =
+            "w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all";
+            document.getElementById("phone-input-section").classList.remove("hidden");
+            document.getElementById("emoney-page").classList.add("hidden");
+        } else if (tab === "pulsa") {
+          btnPulsa.className =
+            "w-1/2 py-3 text-sm font-semibold border-b-2 border-blue-600 text-blue-600 transition-all";
+          btnMasa.className =
+            "w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all";
+          btnPaket.className =
+            "w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all";
+        btnEmoney.className =
+            "w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all";
+        document.getElementById("phone-input-section").classList.remove("hidden");
+        document.getElementById("emoney-page").classList.add("hidden");
+        } else if (tab === "emoney") {
+          btnEmoney.className =
+            "w-1/2 py-3 text-sm font-semibold border-b-2 border-blue-600 text-blue-600 transition-all";
+          btnMasa.className =
+            "w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all";
+          btnPaket.className =
+            "w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all";
+          btnPulsa.className =
+            "w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all";
+            document.getElementById("phone-input-section").classList.add("hidden");
+            document.getElementById("emoney-page").classList.remove("hidden");
         }
+        
+
         renderProducts();
       }
+    //   let selectedProductData = null;
+    //     let isLoading = false;
+    //     let detectedProvider = "Emoney";
+    const EMONEY_CACHE_KEY = "cache_emoney_data";
+     const EMONEY_CACHE_TIME = 1000 * 60 * 30;
+
+        function getCachedData() {
+            const cached = localStorage.getItem(EMONEY_CACHE_KEY);
+            if (cached) {
+                const parsed = JSON.parse(cached);
+                if (Date.now() - parsed.timestamp < EMONEY_CACHE_TIME) return parsed.data;
+            }
+            return null;
+        }
+      async function handleOperatorClick(operator) {
+    document.getElementById('btn-grab').style.opacity = (operator === 'Grab Drive') ? '1' : '0.4';
+    document.getElementById('btn-maxim').style.opacity = (operator === 'Maxim Driver') ? '1' : '0.4';
+
+    const cached = getCachedData();
+    if (cached) {
+        renderEmoneyProducts(cached, operator);
+    } else {
+        await fetchAndRenderEmoney(operator);
+    }
+}
+async function fetchAndRenderEmoney(operator) {
+    console.log("Fetching data for operator:", operator);
+    const loader = document.getElementById('loading-state');
+    const productSec = document.getElementById('product-section');
+    const emptySec = document.getElementById('empty-state');
+
+    loader.classList.remove('hidden');
+    productSec.classList.add('hidden');
+    emptySec.classList.add('hidden');
+
+    try {
+        const response = await fetch(API_URL);
+        const result = await response.json();
+        if (result.status === "ok") {
+            const emoneyData = result.data.filter(item => item.type === "Emoney");
+            localStorage.setItem(EMONEY_CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: emoneyData })); // Fixed cache key
+            renderEmoneyProducts(emoneyData, operator);
+        } else { 
+            showError("Gagal memuat data"); 
+        }
+    } catch (error) { 
+        showError("Koneksi bermasalah"); 
+    }
+    finally { 
+        loader.classList.add('hidden'); 
+    }
+}
+
+function renderEmoneyProducts(data, operator) {
+    const grid = document.getElementById('product-grid');
+    const productSec = document.getElementById('product-section');
+    const inputSec = document.getElementById('input-section');
+    const filtered = data.filter(p => p.operator === operator);
+    
+    grid.innerHTML = '';
+    if (filtered.length === 0) { 
+        showError("Produk tidak ditemukan"); 
+        return; 
+    }
+
+    filtered.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-blue-500 transition-all';
+        card.innerHTML = `
+            <div class="text-[10px] uppercase font-bold text-gray-500">${p.operator}</div>
+            <div class="text-sm font-bold leading-tight my-2">${p.description}</div>
+            <div class="text-lg font-bold text-blue-600">Rp ${parseFloat(p.price).toLocaleString('id-ID')}</div>
+        `;
+        card.onclick = () => selectEmoneyProduct(p);
+        grid.appendChild(card);
+    });
+
+    productSec.classList.remove('hidden');
+    inputSec.classList.remove('hidden'); // Show input section
+}
+
+function selectEmoneyProduct(product) {
+    // Remove previous selection styling
+    document.querySelectorAll('#product-grid .product-card').forEach(card => {
+        card.classList.remove('border-blue-500', 'bg-blue-50');
+        card.classList.add('border-gray-200');
+    });
+    
+    // Add selection styling to clicked card
+    event.currentTarget.classList.add('border-blue-500', 'bg-blue-50');
+    event.currentTarget.classList.remove('border-gray-200');
+    
+    // Store selected product
+    selectedProductData = {
+        description: product.description,
+        price: product.price,
+        formattedPrice: new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0,
+        }).format(product.price),
+        provider: product.operator,
+        sku: product.SKU || "N/A",
+        type: "emoney"
+    };
+}
+
+function initiateCheckout() {
+    const driverId = document.getElementById('driver-id').value;
+    
+    if (!driverId || driverId.length < 5) {
+        alert('Masukkan ID Driver yang valid (minimal 5 digit)');
+        return;
+    }
+    
+    if (!selectedProductData) {
+        alert('Pilih produk terlebih dahulu');
+        return;
+    }
+    
+    // Add driver ID to selected product data
+    selectedProductData.phone = driverId;
+    
+    // Show confirmation overlay
+    document.getElementById("selected-product-text").innerText = 
+        `${selectedProductData.description} - ${selectedProductData.formattedPrice}\nID Driver: ${driverId}`;
+    document.getElementById("confirm-view").classList.remove("hidden");
+    document.getElementById("order-success-view").classList.add("hidden");
+    document.getElementById("success-overlay").classList.remove("hidden");
+}
+
+function showError(message) {
+    const empty = document.getElementById('empty-state');
+    empty.innerHTML = `<i class="fa-solid fa-exclamation-circle text-5xl mb-4 opacity-20 text-red-400"></i><p class="text-sm text-red-500">${message}</p>`;
+    empty.classList.remove('hidden');
+}
+        // function renderProducts(data, operator) {
+        //     const grid = document.getElementById('product-grid');
+        //     const productSec = document.getElementById('product-section');
+        //     const inputSec = document.getElementById('input-section');
+        //     const filtered = data.filter(p => p.operator === operator);
+            
+        //     grid.innerHTML = '';
+        //     if (filtered.length === 0) { showError("Produk tidak ditemukan"); return; }
+
+        //     filtered.forEach(p => {
+        //         const card = document.createElement('div');
+        //         card.className = 'product-card p-4 rounded-lg text-center flex flex-col justify-center items-center min-h-[100px] shadow-sm';
+        //         card.innerHTML = `
+        //             <div class="text-[10px] uppercase font-bold opacity-80">${p.operator}</div>
+        //             <div class="text-sm font-bold leading-tight my-1">${p.description.toUpperCase()}</div>
+        //             <div class="text-xs font-bold">RP. ${parseFloat(p.price).toLocaleString('id-ID')}</div>
+        //         `;
+        //         card.onclick = () => selectProduct(p, card);
+        //         grid.appendChild(card);
+        //     });
+
+        //     productSec.classList.remove('hidden');
+        //     inputSec.classList.add('hidden');
+        // }
 
       function handlePhoneInput(val) {
         val = val.replace(/\D/g, "");
@@ -472,7 +742,9 @@
         showEmpty("Pilih provider dengan memasukkan nomor HP");
       }
 
-      function renderProducts() {
+      function renderProducts(data, operator, tabis)  {
+        console.log("Rendering products for detected:", detectedProvider);
+        console.log("Rendering products for operator:", operator);
         if (!detectedProvider || !allProducts.length) return;
         const container = document.getElementById("product-list");
         const empty = document.getElementById("empty-state");
@@ -721,6 +993,34 @@
           return false;
         }
       }
+      // Scroll handler for fixed input section
+function handleInputSectionScroll() {
+  const inputSection = document.getElementById('input-section');
+  const productSection = document.getElementById('product-section');
+  const emoneyPage = document.getElementById('emoney-page');
+  
+  if (!inputSection || !productSection) return;
+  
+  // Get the original position of input section
+  const scrollThreshold = 300; // Adjust this value (pixels from top)
+  
+  // Alternative: Use product section position
+  // const scrollThreshold = productSection.offsetTop + 200;
+  
+  if (window.scrollY > scrollThreshold) {
+    inputSection.classList.add('input-fixed');
+    emoneyPage.classList.add('input-is-fixed');
+  } else {
+    inputSection.classList.remove('input-fixed');
+    emoneyPage.classList.remove('input-is-fixed');
+  }
+}
+
+// Add scroll event listener when page loads
+window.addEventListener('scroll', handleInputSectionScroll);
+
+// Also check on page load
+window.addEventListener('load', handleInputSectionScroll);
     </script>
   </body>
 </html>
