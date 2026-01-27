@@ -10,6 +10,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
     <style>
       body {
         background-color: #f3f4f6;
@@ -46,6 +47,41 @@
 /* Add padding when fixed to prevent content jump */
 #emoney-page.input-is-fixed #product-grid {
   padding-top: 200px; /* Adjust based on input section height */
+}
+#promo-carousel {
+    touch-action: pan-y pinch-zoom; /* Allows vertical scrolling, enables horizontal swipe */
+    user-select: none; /* Prevents text selection during swipe */
+    -webkit-user-select: none;
+    -webkit-touch-callout: none; /* Prevents iOS callout menu */
+}
+
+.carousel-inner {
+    will-change: transform; /* Better performance for animations */
+}
+
+.carousel-item img {
+    pointer-events: none; /* Prevents image drag interference */
+}
+.tabs-fixed {
+    display: inline;
+    position: relative;
+    top: -12px;
+    right: 10px;
+}
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.new-badge {
+  display: inline-block;
+  animation: bounce 1s infinite;
 }
 
       .product-card {
@@ -88,35 +124,73 @@
 
       <!-- Tabs -->
       <div class="flex border-b border-gray-200">
-        <button
-          id="tab-masa-aktif"
-          onclick="switchTab('masa aktif')"
-          class="w-1/2 py-3 text-sm font-semibold border-b-2 border-blue-600 text-blue-600 transition-all"
-        >
+        <button id="tab-masa-aktif" onclick="switchTab('masa aktif')" class="w-1/2 py-3 text-sm font-semibold border-b-2 border-blue-600 text-blue-600 transition-all">
           Masa Aktif
         </button>
-        <button
-          id="tab-paket-data"
-          onclick="switchTab('paket data')"
-          class="w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all"
-        >
+        <button id="tab-paket-data" onclick="switchTab('paket data')" class="w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all">
           Paket Data
         </button>
-        <button
-          id="tab-pulsa"
-          onclick="switchTab('pulsa')"
-          class="w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all"
-        >
+        <button id="tab-pulsa" onclick="switchTab('pulsa')" class="w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all" >
           Pulsa
         </button>
-        <button
-          id="tab-emoney"
-          onclick="switchTab('emoney')"
-          class="w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all"
-        >
+        <button id="tab-emoney" onclick="switchTab('emoney')" class=" w-1/2 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-500 transition-all"  >
           E-Money
+          <span class="tabs-fixed new-badge ml-1 bg-yellow-400 text-black text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Baru</span>
         </button>
       </div>
+      
+<!-- Simple Custom Carousel with Real Images -->
+<div id="promo-carousel" class="relative w-full h-48 overflow-hidden">
+    <div class="carousel-inner flex transition-transform duration-500 ease-in-out h-full" id="carousel-track">
+        <!-- Slide 1 -->
+        <div class="carousel-item min-w-full h-full relative">
+            <img src="https://easygoing-pig.static.domains/1.jpg" class="w-full h-full object-cover" alt="Promo 1">
+            <div class="absolute inset-0 bg-black/40 flex items-center text-white">
+                <div class="text-left p-6 pl-8">
+                    <h3 class="text-2xl font-bold mb-2">Promo Spesial!</h3>
+                    <p class="text-sm">Dapatkan bonus untuk setiap pembelian</p>
+                </div>
+            </div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="carousel-item min-w-full h-full relative">
+            <img src="https://easygoing-pig.static.domains/2.jpg" class="w-full h-full object-cover" alt="Promo 2">
+            <div class="absolute inset-0 bg-black/40 flex items-center text-white">
+                <div class="text-left p-6 pl-8">
+                    <h3 class="text-2xl font-bold mb-2">Cashback 10%</h3>
+                    <p class="text-sm">Untuk pembelian pulsa minimal 50rb</p>
+                </div>
+            </div>
+        </div>
+        <!-- Slide 3 -->
+        <div class="carousel-item min-w-full h-full relative">
+            <img src="https://easygoing-pig.static.domains/3.jpg" class="w-full h-full object-cover" alt="Promo 3">
+            <div class="absolute inset-0 bg-black/40 flex items-center text-white">
+                <div class="text-left p-6 pl-8">
+                    <h3 class="text-2xl font-bold mb-2">Transaksi Cepat</h3>
+                    <p class="text-sm">Proses otomatis dalam hitungan detik</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Indicators -->
+    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+        <button class="carousel-dot w-2 h-2 rounded-full bg-white" data-index="0"></button>
+        <button class="carousel-dot w-2 h-2 rounded-full bg-white/50" data-index="1"></button>
+        <button class="carousel-dot w-2 h-2 rounded-full bg-white/50" data-index="2"></button>
+    </div>
+    <!-- Navigation Arrows -->
+    <button class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-2 rounded-full backdrop-blur-sm transition-all z-10" onclick="prevSlide()">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+    </button>
+    <button class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-2 rounded-full backdrop-blur-sm transition-all z-10" onclick="nextSlide()">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+    </button>
+</div>
 
       <!-- Phone Number Input Section -->
       <div id="phone-input-section" class="p-4 bg-gray-50 border-b border-gray-100">
@@ -1021,6 +1095,110 @@ window.addEventListener('scroll', handleInputSectionScroll);
 
 // Also check on page load
 window.addEventListener('load', handleInputSectionScroll);
+
+// Enhanced Carousel Script with Swipe Support
+let currentSlide = 0;
+const slides = document.querySelectorAll('.carousel-item');
+const dots = document.querySelectorAll('.carousel-dot');
+const track = document.getElementById('carousel-track');
+const carousel = document.getElementById('promo-carousel');
+const totalSlides = slides.length;
+
+function goToSlide(index) {
+    currentSlide = (index + totalSlides) % totalSlides;
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    
+    // Update dots
+    dots.forEach((dot, i) => {
+        if (i === currentSlide) {
+            dot.classList.remove('bg-white/50');
+            dot.classList.add('bg-white');
+        } else {
+            dot.classList.remove('bg-white');
+            dot.classList.add('bg-white/50');
+        }
+    });
+}
+
+function nextSlide() {
+    goToSlide(currentSlide + 1);
+}
+
+function prevSlide() {
+    goToSlide(currentSlide - 1);
+}
+
+// Auto slide every 4 seconds
+let autoSlideInterval = setInterval(nextSlide, 4000);
+
+// Pause auto-slide on hover (desktop)
+carousel.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+carousel.addEventListener('mouseleave', () => {
+    autoSlideInterval = setInterval(nextSlide, 4000);
+});
+
+// Dot click handlers
+dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+        goToSlide(parseInt(dot.dataset.index));
+        // Reset auto-slide timer
+        clearInterval(autoSlideInterval);
+        autoSlideInterval = setInterval(nextSlide, 4000);
+    });
+});
+
+// ============================================
+// MOBILE SWIPE SUPPORT
+// ============================================
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+let touchEndY = 0;
+
+carousel.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+    // Pause auto-slide when user touches
+    clearInterval(autoSlideInterval);
+}, { passive: true });
+
+carousel.addEventListener('touchmove', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+}, { passive: true });
+
+carousel.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    
+    const deltaX = touchStartX - touchEndX;
+    const deltaY = Math.abs(touchStartY - touchEndY);
+    
+    // Only trigger swipe if horizontal movement is greater than vertical
+    // This prevents interference with page scrolling
+    if (Math.abs(deltaX) > deltaY) {
+        // Swipe left (next slide)
+        if (deltaX > 50) {
+            nextSlide();
+        }
+        // Swipe right (previous slide)
+        if (deltaX < -50) {
+            prevSlide();
+        }
+    }
+    
+    // Resume auto-slide after swipe
+    autoSlideInterval = setInterval(nextSlide, 4000);
+}, { passive: true });
+
+// Prevent default drag behavior on images
+carousel.addEventListener('dragstart', (e) => {
+    e.preventDefault();
+});
     </script>
+  
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+
   </body>
 </html>
