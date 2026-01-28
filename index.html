@@ -43,7 +43,36 @@
 .input-fixed .mb-10 {
     margin-bottom: 0.5rem;
 }
-
+section {
+    display: block;
+    unicode-bidi: isolate;
+}
+.container {
+    width: 100%;
+    @media (width >= 540px) {
+      max-width: 540px;
+    }
+    @media (width >= 768px) {
+      max-width: 768px;
+    }
+    @media (width >= 992px) {
+      max-width: 992px;
+    }
+    @media (width >= 1140px) {
+      max-width: 1140px;
+    }
+    @media (width >= 1320px) {
+      max-width: 1320px;
+    }
+  }
+  .container {
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  .text-base {
+    font-size: var(--text-base);
+    line-height: var(--tw-leading, var(--text-base--line-height));
+}
 /* Add padding when fixed to prevent content jump */
 #emoney-page.input-is-fixed #product-grid {
   padding-top: 200px; /* Adjust based on input section height */
@@ -78,7 +107,9 @@
     animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
 }
-
+div#empty-state {
+    height: 100px;
+}
 .new-badge {
   display: inline-block;
   animation: bounce 1s infinite;
@@ -118,7 +149,7 @@
   <body class="flex justify-center min-h-screen">
     <div class="w-full max-w-lg bg-white shadow-lg min-h-screen flex flex-col">
       <!-- Header -->
-      <header class="bg-blue-600 p-4 text-white">
+      <header class="bg-[#3c3aff] p-4 text-white">
         <h1 class="text-xl font-bold text-center">Aplus Digital</h1>
       </header>
 
@@ -147,7 +178,7 @@
             <img src="https://easygoing-pig.static.domains/1.jpg" class="w-full h-full object-cover" alt="Promo 1">
             <div class="absolute inset-0 bg-black/40 flex items-center text-white">
                 <div class="text-left p-6 pl-8">
-                    <h3 class="text-2xl font-bold mb-2">Promo Spesial!</h3>
+                    <h3 class="text-2xl font-bold mb-2">Promo Super Murah!</h3>
                     <p class="text-sm">Dapatkan bonus untuk setiap pembelian</p>
                 </div>
             </div>
@@ -157,7 +188,7 @@
             <img src="https://easygoing-pig.static.domains/2.jpg" class="w-full h-full object-cover" alt="Promo 2">
             <div class="absolute inset-0 bg-black/40 flex items-center text-white">
                 <div class="text-left p-6 pl-8">
-                    <h3 class="text-2xl font-bold mb-2">Cashback 10%</h3>
+                    <h3 class="text-2xl font-bold mb-2">Spesial Diskon</h3>
                     <p class="text-sm">Untuk pembelian pulsa minimal 50rb</p>
                 </div>
             </div>
@@ -167,8 +198,18 @@
             <img src="https://easygoing-pig.static.domains/3.jpg" class="w-full h-full object-cover" alt="Promo 3">
             <div class="absolute inset-0 bg-black/40 flex items-center text-white">
                 <div class="text-left p-6 pl-8">
-                    <h3 class="text-2xl font-bold mb-2">Transaksi Cepat</h3>
+                    <h3 class="text-2xl font-bold mb-2">Topup Driver</h3>
                     <p class="text-sm">Proses otomatis dalam hitungan detik</p>
+                </div>
+            </div>
+        </div>
+        <!-- Slide 4 -->
+        <div class="carousel-item min-w-full h-full relative">
+            <img src="https://easygoing-pig.static.domains/Super.jpg" class="w-full h-full object-cover" alt="Promo 3">
+            <div class="absolute inset-0 bg-black/40 flex items-center text-white">
+                <div class="text-left p-6 pl-8">
+                    <h3 class="text-2xl font-bold mb-2">Topup Game</h3>
+                    <p class="text-sm">Segera hadir!</p>
                 </div>
             </div>
         </div>
@@ -178,9 +219,10 @@
         <button class="carousel-dot w-2 h-2 rounded-full bg-white" data-index="0"></button>
         <button class="carousel-dot w-2 h-2 rounded-full bg-white/50" data-index="1"></button>
         <button class="carousel-dot w-2 h-2 rounded-full bg-white/50" data-index="2"></button>
+        <button class="carousel-dot w-2 h-2 rounded-full bg-white/50" data-index="3"></button>
     </div>
     <!-- Navigation Arrows -->
-    <button class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-2 rounded-full backdrop-blur-sm transition-all z-10" onclick="prevSlide()">
+    <!-- <button class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-2 rounded-full backdrop-blur-sm transition-all z-10" onclick="prevSlide()">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
@@ -189,7 +231,7 @@
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
         </svg>
-    </button>
+    </button> -->
 </div>
 
       <!-- Phone Number Input Section -->
@@ -223,6 +265,8 @@
           Masukkan nomor untuk melihat produk
         </p>
       </div>
+
+     
       <div id="emoney-page" class="p-4 hidden">
         <!-- Step 1: Operator Buttons -->
         <!-- Operator Buttons Section -->
@@ -286,6 +330,38 @@
           <!-- Products injected here -->
         </div>
       </div>
+       <section id="section-landing" class="pt-[20px]">
+      <div class="container">
+        <div class="flex flex-wrap items-center -mx-4">
+          <div class="w-full px-4 lg:w-1/2">
+            <div class="text-center mb-14 lg:mb-0 wow fadeInUp" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s;">
+              <img src="https://easygoing-pig.static.domains/steps.jpg" alt="image" class="max-full">
+            </div>
+          </div>
+          <div class="w-full px-4 lg:w-1/2">
+            <div class="max-w-[485px] lg:ml-auto wow fadeInUp" data-wow-delay=".3s" style="visibility: visible; animation-delay: 0.3s;">
+              <span class="block mb-2 text-base font-bold text-primary"> Aplus Digital </span>
+              <h4 class="mb-6 text-3xl font-extrabold leading-tight text-black sm:text-2xl">Top Up Instan. Hemat Waktu Anda.</h4>
+              <p class="mb-8 text-sm leading-relaxed text-body-color lg:mb-10">
+               Masukkan nomor ponsel. Pilih paket data atau masa aktif. Bayar langsung dengan QRIS.
+                Sistem memproses otomatis dalam hitungan detik.
+                Tanpa login. Tanpa langkah tambahan.
+                Cocok untuk kebutuhan cepat kapan saja.
+              </p>
+              <a href="https://wa.me/6287862425338?text=Hi+*Aplus*%21+mau+tanya+soal+pulsa+paket+data" class="inline-flex items-center text-base font-bold text-primary hover:underline">
+                Hubungi CS
+
+                <span class="pl-2">
+                  <svg width="28" height="28" viewBox="0 0 28 28" class="fill-current">
+                    <path d="M16.3333 19.7633V15.0967H5.92666L5.89166 12.7517H16.3333V8.09668L22.1667 13.93L16.3333 19.7633Z"></path>
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
       <!-- Success Message / Confirm -->
       <div
@@ -689,6 +765,8 @@ function renderEmoneyProducts(data, operator) {
 
     productSec.classList.remove('hidden');
     inputSec.classList.remove('hidden'); // Show input section
+    document.getElementById("promo-carousel").classList.add("hidden");
+    document.getElementById("section-landing").classList.add("hidden");
 }
 
 function selectEmoneyProduct(product) {
@@ -868,6 +946,8 @@ function showError(message) {
         });
         empty.classList.add("hidden");
         container.classList.remove("hidden");
+        document.getElementById("promo-carousel").classList.add("hidden");
+        document.getElementById("section-landing").classList.add("hidden");
       }
 
       function selectProduct(product) {
